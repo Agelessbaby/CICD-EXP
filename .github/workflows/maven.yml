@@ -31,6 +31,4 @@ jobs:
         git revert HEAD    # 回滚上一个提交
         git push origin HEAD:${{ github.ref }}  # 推送回滚后的代码到当前分支
 
-    # Optional: 上传完整的依赖关系图以改进 Dependabot 警告的质量
-    - name: Update dependency graph
-      uses: advanced-security/maven-dependency-submission-action
+
