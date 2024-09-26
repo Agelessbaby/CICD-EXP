@@ -12,23 +12,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up JDK 8
-      uses: actions/setup-java@v4
-      with:
-        java-version: '8'
-        distribution: 'temurin'
-        cache: maven
-    
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
-    
-    # 检查构建状态，失败时回滚
-    - name: Check build status and revert on failure
-      if: failure()  # 当构建失败时执行
-      run: |
-        git revert HEAD    # 回滚上一个提交
-        git push origin HEAD:${{ github.ref }}  # 推送回滚后的代码到当前分支
+      - uses: actions/checkout@v4
 
+      - name: Set up JDK 8
+        uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          cache: maven
 
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+      # 配置 Git 用户名和邮箱，避免 Git 操作失败
+      - name: Configure Git user
+        run: |
+          git config --global user.name "Agelessbaby"
+          git config --global user.email "205902584@qq.com"
+
+      # 检查构建状态，失败时回滚
+      - name: Check build status and revert on failure
+        if: failure()  # 当构建失败时执行
+        run: |
+          git revert HEAD    # 回滚上一个提交
+          git push origin HEAD:${{ github.ref }}  # 推送回滚后的代码到当前分支
