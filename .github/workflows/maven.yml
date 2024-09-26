@@ -24,11 +24,3 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
-      # 检查构建状态，失败时回滚
-      - name: Check build status and revert on failure
-        if: failure()  # 当构建失败时执行
-        run: |
-          git config user.name "Agelessbaby"
-          git config user.email "205902584@qq.com"
-          git revert HEAD    # 回滚上一个提交
-          git push origin HEAD:${{ github.ref }}  # 推送回滚后的代码到当前分支
